@@ -1,0 +1,37 @@
+# Deploy do conversaotemperatura
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversaotemperatura
+  labels:
+    app: conversaotemperatura
+spec:
+  selector:
+    matchLabels:
+      app: conversaotemperatura
+  template:
+    metadata:
+      labels:
+        app: conversaotemperatura
+    spec:
+      containers:
+      - name: conversaotemperatura
+        image: edsontanaka/conversao-temperatura:1
+        ports:
+          - containerPort: 8080
+
+---
+# Service do conversaotemperatura
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversaotemperatura
+spec:
+  selector:
+    app: conversaotemperatura
+  ports:
+    - port: 80
+      protocol: TCP
+      nodePort: 30000
+      targetPort: 8080
+  type: NodePort
